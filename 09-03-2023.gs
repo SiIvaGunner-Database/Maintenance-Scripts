@@ -19,3 +19,25 @@ function fixUploadDateColumnFormattingOnFanChannelRips() {
     sheet.sort(5, false)
   })
 }
+
+// Empty rows appeared when duplicate rows were removed via Google Sheets data cleanup. Make them disappear.
+function deleteEmptyRowsOnFanChannelRips() {
+  initializeSettings()
+  // const sheets = SpreadsheetApp.openById("1JhARnRkPEtwGFGgmxIBFoWixB7QR2K_toz38-tTHDOM").getSheets() // Copy of SiIvaGunner Fan Channel Rips
+  const sheets = SpreadsheetApp.openById("1Q_L84zZ2rzS57ZcDcCdmxMsguqjpnbLGr5_QVX5LVKA").getSheets() // SiIvaGunner Fan Channel Rips
+
+  sheets.forEach(sheet => {
+    if (sheet.getName() === "Index" || sheet.getName() === "Template") {
+      return
+    }
+
+    console.log(sheet.getName())
+    const lastRow = sheet.getLastRow()
+
+    // Copied from HighQualityUtils.WrapperSheet.format()
+    if (sheet.getMaxRows() > lastRow && sheet.getMaxRows() > 2) {
+      const firstEmptyRow = (lastRow === 1 ? 3 : lastRow + 1)
+      sheet.deleteRows(firstEmptyRow, sheet.getMaxRows() - firstEmptyRow + 1)
+    }
+  })
+}
