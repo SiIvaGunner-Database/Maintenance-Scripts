@@ -3,5 +3,5 @@ function initializeSettings(enableDevMode = false) {
     HighQualityUtils.settings().enableDevMode()
   }
 
-  HighQualityUtils.settings().setAuthToken(PropertiesService.getScriptProperties())
+  return HighQualityUtils.settings().setAuthToken(PropertiesService.getScriptProperties())
 }
